@@ -64,9 +64,9 @@ namespace cp
 		void* getUserData() const;
 		void setUserData(void*);
 
-		void add(Shape*);
-		void add(Body*);
-		void add(Constraint*);
+		Shape* add(Shape*);
+		Body* add(Body*);
+		Constraint* add(Constraint*);
 
 		void remove(Shape*);
 		void remove(Body*);

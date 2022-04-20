@@ -1,2 +1,5 @@
 source/*.o
-cpwrlap.a
+libcpwrlap.a
+
+example/*.o
+example/example.exe

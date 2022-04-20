@@ -129,22 +129,25 @@ namespace cp
 	void* Space::getUserData() const { return data; }
 	void Space::setUserData(void* data) { this->data = data; }
 
-	void Space::add(Shape* shape)
+	Shape* Space::add(Shape* shape)
 	{
 		cpSpaceAddShape(space, *shape);
 		shapes.push_back(shape);
+		return shape;
 	}
 
-	void Space::add(Body* body)
+	Body* Space::add(Body* body)
 	{
 		cpSpaceAddBody(space, *body);
 		bodies.push_back(body);
+		return body;
 	}
 
-	void Space::add(Constraint* constraint)
+	Constraint* Space::add(Constraint* constraint)
 	{
 		cpSpaceAddConstraint(space, *constraint);
 		constraints.push_back(constraint);
+		return constraint;
 	}
 
 	void Space::remove(Shape* shape)

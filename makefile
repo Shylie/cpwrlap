@@ -15,10 +15,10 @@ else ifeq ($(BUILD_MODE),Release)
 	CXXFLAGS := -O3 $(CXXFLAGS)
 endif
 
-all: cpwrlap.a
+all: libcpwrlap.a
 
-cpwrlap.a: $(HEADER_FILES) $(OBJS)
-	ar rvs cpwrlap.a $(OBJS)
+libcpwrlap.a: $(HEADER_FILES) $(OBJS)
+	ar rvs libcpwrlap.a $(OBJS)
 
 %.o: %.cpp
 	g++ -c $(INCLUDE_PATHS) $(CXXFLAGS) $^ -o $@
@@ -26,4 +26,4 @@ cpwrlap.a: $(HEADER_FILES) $(OBJS)
 
 clean:
 	rm -f $(OBJS)
-	rm -f cpwrlap.a
+	rm -f libcpwrlap.a
