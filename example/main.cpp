@@ -2,10 +2,14 @@
 #include <raylib.h>
 #include <chipmunk.h>
 
+void onSeparate(cp::Arbiter arb, cp::Space& space, void* data);
+
 int main()
 {
 	cp::Space space;
 	space.setGravity(cpv(0, 10));
+
+	space.setDefaultCollisionSeparateFunc(&onSeparate);
 
 	cp::Shape* ground = space.add(new cp::SegmentShape(space.getStaticBody(), cpv(-10, 20), cpv(640, 360), 0));
 	ground->setFriction(1);
@@ -51,4 +55,10 @@ int main()
 	}
 
 	CloseWindow();
+}
+
+void onSeparate(cp::Arbiter arb, cp::Space& space, void* data)
+{
+	arb.getBodyA()->setVelocity(arb.getBodyA()->getVelocity() + arb.getNormal() * -100);
+	arb.getBodyB()->setVelocity(arb.getBodyB()->getVelocity() + arb.getNormal() * 100);
 }
