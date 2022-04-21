@@ -43,6 +43,7 @@ namespace cp
 {
 	Space::CallbackData& Space::setupCallbackData(cpCollisionHandler* key)
 	{
+
 		if (collisionCallbackData.find(key) == collisionCallbackData.end())
 		{	
 			CallbackData& cbd = collisionCallbackData[key];
@@ -51,6 +52,12 @@ namespace cp
 			cbd.postSolve = nullptr;
 			cbd.separate = nullptr;
 			cbd.data = nullptr;
+
+			key->beginFunc = reinterpret_cast<cpCollisionBeginFunc>(&collisionBeginFuncHelper);
+			key->preSolveFunc = reinterpret_cast<cpCollisionPreSolveFunc>(&collisionPreSolveFuncHelper);
+			key->postSolveFunc = reinterpret_cast<cpCollisionPostSolveFunc>(&collisionPostSolveFuncHelper);
+			key->separateFunc = reinterpret_cast<cpCollisionSeparateFunc>(&collisionSeparateFuncHelper);
+			key->userData = &cbd;
 		}
 
 		return collisionCallbackData[key];
