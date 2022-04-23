@@ -15,7 +15,7 @@ else ifeq ($(BUILD_MODE),Release)
 	CXXFLAGS := -O3 $(CXXFLAGS)
 endif
 
-all: libcpwrlap.a
+build: libcpwrlap.a
 
 libcpwrlap.a: $(HEADER_FILES) $(OBJS)
 	ar rvs libcpwrlap.a $(OBJS)
