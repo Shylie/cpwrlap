@@ -3,7 +3,6 @@
 
 #include <utility>
 #include <unordered_map>
-#include <vector>
 
 #include <chipmunk.h>
 #include <raylib.h>
@@ -29,10 +28,6 @@ namespace cp
 		Body* staticBody;
 
 		void* data;
-
-		std::vector<Shape*> shapes;
-		std::vector<Body*> bodies;
-		std::vector<Constraint*> constraints;
 
 		struct CallbackData
 		{

@@ -4,10 +4,9 @@
 #include "shape.h"
 #include "arbiter.h"
 
-#include <algorithm>
-
 static void ShapeFreeWrap(cpSpace* space, cpShape* shape, void*)
 {
+	delete reinterpret_cast<cp::Shape*>(cpShapeGetUserData(shape));
 	cpSpaceRemoveShape(space, shape);
 	cpShapeFree(shape);
 }
@@ -19,6 +18,7 @@ static void PostShapeFree(cpShape* shape, cpSpace* space)
 
 static void ConstraintFreeWrap(cpSpace* space, cpConstraint* constraint, void*)
 {
+	delete reinterpret_cast<cp::Constraint*>(cpConstraintGetUserData(constraint));
 	cpSpaceRemoveConstraint(space, constraint);
 	cpConstraintFree(constraint);
 }
@@ -30,6 +30,7 @@ static void PostConstraintFree(cpConstraint* constraint, cpSpace* space)
 
 static void BodyFreeWrap(cpSpace* space, cpBody* body, void*)
 {
+	delete reinterpret_cast<cp::Body*>(cpBodyGetUserData(body));
 	cpSpaceRemoveBody(space, body);
 	cpBodyFree(body);
 }
@@ -37,6 +38,18 @@ static void BodyFreeWrap(cpSpace* space, cpBody* body, void*)
 static void PostBodyFree(cpBody* body, cpSpace* space)
 {
 	cpSpaceAddPostStepCallback(space, (cpPostStepFunc)BodyFreeWrap, body, nullptr);
+}
+
+static void ShapeDraw(cpShape* shape, void* data)
+{
+	Color color = *static_cast<Color*>(data);
+	reinterpret_cast<cp::Shape*>(cpShapeGetUserData(shape))->draw(color);
+}
+
+static void ConstraintDraw(cpConstraint* constraint, void* data)
+{
+	Color color = *static_cast<Color*>(data);
+	reinterpret_cast<cp::Constraint*>(cpConstraintGetUserData(constraint))->draw(color);
 }
 
 namespace cp
@@ -108,24 +121,6 @@ namespace cp
 		cpSpaceEachConstraint(space, (cpSpaceConstraintIteratorFunc)PostConstraintFree, space);
 		cpSpaceEachBody(space, (cpSpaceBodyIteratorFunc)PostBodyFree, space);
 
-
-		for (Shape* shape : shapes)
-		{
-			delete shape;
-		}
-		shapes.clear();
-
-		for (Constraint* constraint : constraints)
-		{
-			delete constraint;
-		}
-		constraints.clear();
-
-		for (Body* body : bodies)
-		{
-			delete body;
-		}
-
 		delete staticBody;
 
 		cpSpaceFree(space);
@@ -139,21 +134,18 @@ namespace cp
 	Shape* Space::add(Shape* shape)
 	{
 		cpSpaceAddShape(space, *shape);
-		shapes.push_back(shape);
 		return shape;
 	}
 
 	Body* Space::add(Body* body)
 	{
 		cpSpaceAddBody(space, *body);
-		bodies.push_back(body);
 		return body;
 	}
 
 	Constraint* Space::add(Constraint* constraint)
 	{
 		cpSpaceAddConstraint(space, *constraint);
-		constraints.push_back(constraint);
 		return constraint;
 	}
 
@@ -161,21 +153,18 @@ namespace cp
 	{
 		cpSpaceRemoveShape(space, *shape);
 		delete shape;
-		shapes.erase(std::find(shapes.begin(), shapes.end(), shape));
 	}
 
 	void Space::remove(Body* body)
 	{
 		cpSpaceRemoveBody(space, *body);
 		delete body;
-		bodies.erase(std::find(bodies.begin(), bodies.end(), body));
 	}
 
 	void Space::remove(Constraint* constraint)
 	{
 		cpSpaceRemoveConstraint(space, *constraint);
 		delete constraint;
-		constraints.erase(std::find(constraints.begin(), constraints.end(), constraint));
 	}
 
 	Body* Space::getStaticBody()
@@ -200,15 +189,8 @@ namespace cp
 
 	void Space::draw(Color shapesColor, Color constraintsColor) const
 	{
-		for (Constraint* constraint : constraints)
-		{
-			constraint->draw(constraintsColor);
-		}
-
-		for (Shape* shape : shapes)
-		{
-			shape->draw(shapesColor);
-		}
+		cpSpaceEachConstraint(space, &ConstraintDraw, &constraintsColor);
+		cpSpaceEachShape(space, &ShapeDraw, &shapesColor);
 	}
 
 	void Space::setCollisionBeginFunc(cpCollisionType a, cpCollisionType b, CollisionBeginFunc begin)
