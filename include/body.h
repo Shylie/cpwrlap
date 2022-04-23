@@ -52,6 +52,14 @@ namespace cp
 
 		cpVect getRotation() const;
 
+		void applyForce(cpVect);
+		void applyImpulse(cpVect);
+
+		void applyForceWorld(cpVect, cpVect);
+		void applyForceLocal(cpVect, cpVect);
+		void applyImpulseWorld(cpVect, cpVect);
+		void applyImpulseLocal(cpVect, cpVect);
+
 		void* getUserData() const;
 		void setUserData(void*);
 	};

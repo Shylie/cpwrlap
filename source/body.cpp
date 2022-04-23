@@ -56,6 +56,14 @@ namespace cp
 
 	cpVect Body::getRotation() const { return cpBodyGetRotation(body); }
 
+	void Body::applyForce(cpVect force) { cpBodyApplyForceAtWorldPoint(body, force, cpBodyGetPosition(body)); }
+	void Body::applyImpulse(cpVect impulse) { cpBodyApplyImpulseAtWorldPoint(body, impulse, cpBodyGetPosition(body)); }
+
+	void Body::applyForceWorld(cpVect force, cpVect point) { cpBodyApplyForceAtWorldPoint(body, force, point); }
+	void Body::applyForceLocal(cpVect force, cpVect point) { cpBodyApplyForceAtLocalPoint(body, force, point); }
+	void Body::applyImpulseWorld(cpVect impulse, cpVect point) { cpBodyApplyImpulseAtWorldPoint(body, impulse, point); }
+	void Body::applyImpulseLocal(cpVect impulse, cpVect point) { cpBodyApplyImpulseAtLocalPoint(body, impulse, point); }
+
 	void* Body::getUserData() const { return userData; }
 	void Body::setUserData(void* data) { userData = data; }
 }

@@ -59,6 +59,6 @@ int main()
 
 void onSeparate(cp::Arbiter arb, cp::Space& space, void* data)
 {
-	arb.getBodyA()->setVelocity(arb.getBodyA()->getVelocity() + arb.getNormal() * -100);
-	arb.getBodyB()->setVelocity(arb.getBodyB()->getVelocity() + arb.getNormal() * 100);
+	arb.getBodyA()->applyImpulse(arb.getNormal() * -100);
+	arb.getBodyB()->applyImpulse(arb.getNormal() * 100);
 }
