@@ -72,6 +72,9 @@ namespace cp
 		cpVect getGravity() const;
 		void setGravity(cpVect);
 
+		cpFloat getDamping() const;
+		void setDamping(cpFloat);
+
 		void step(cpFloat);
 		void draw(Color, Color) const;
 

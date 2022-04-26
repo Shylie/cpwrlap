@@ -182,6 +182,16 @@ namespace cp
 		cpSpaceSetGravity(space, gravity);
 	}
 
+	cpFloat Space::getDamping() const
+	{
+		return cpSpaceGetDamping(space);
+	}
+
+	void Space::setDamping(cpFloat damping)
+	{
+		cpSpaceSetDamping(space, damping);
+	}
+
 	void Space::step(cpFloat timestep)
 	{
 		cpSpaceStep(space, timestep);
