@@ -14,6 +14,6 @@ namespace cp
 	{
 		cpVect position = getOffsetWorld();
 		cpFloat radius = getRadius();
-		DrawRing(Vector2{ position.x, position.y }, radius - 1, radius, 0, 360, 36, color);
+		DrawRing(Vector2{ static_cast<float>(position.x), static_cast<float>(position.y) }, radius - 1, radius, 0, 360, 36, color);
 	}
 }

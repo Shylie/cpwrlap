@@ -20,7 +20,11 @@ namespace cp
 		{
 			cpVect current = getVertexWorld(i);
 			cpVect next = getVertexWorld((i + 1) % count);
-			DrawLineEx(Vector2{ current.x, current.y }, Vector2{ next.x, next.y }, 1, color);
+			DrawLineEx(
+				Vector2{ static_cast<float>(current.x), static_cast<float>(current.y) },
+				Vector2{ static_cast<float>(next.x), static_cast<float>(next.y) },
+				1, color
+			);
 		}
 	}
 }

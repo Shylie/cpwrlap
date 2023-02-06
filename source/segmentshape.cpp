@@ -20,6 +20,10 @@ namespace cp
 		cpVect a = getEndpointAWorld();
 		cpVect b = getEndpointBWorld();
 		cpFloat thickness = getRadius();
-		DrawLineEx(Vector2{ a.x, a.y }, Vector2{ b.x, b.y }, thickness + 1, color); 
+		DrawLineEx(
+			Vector2{ static_cast<float>(a.x), static_cast<float>(a.y) },
+			Vector2{ static_cast<float>(b.x), static_cast<float>(b.y) },
+			thickness + 1, color
+		);
 	}
 }

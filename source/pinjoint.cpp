@@ -26,6 +26,10 @@ namespace cp
 		cpVect anchorA = getAnchorAWorld();
 		cpVect anchorB = getAnchorBWorld();
 
-		DrawLineEx(Vector2{ anchorA.x, anchorA.y }, Vector2{ anchorB.x, anchorB.y }, 1, color);
+		DrawLineEx(
+			Vector2{ static_cast<float>(anchorA.x), static_cast<float>(anchorA.y) },
+			Vector2{ static_cast<float>(anchorB.x), static_cast<float>(anchorB.y) },
+			1, color
+		);
 	}
 }
