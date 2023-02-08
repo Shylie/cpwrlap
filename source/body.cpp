@@ -1,4 +1,35 @@
 #include "body.h"
+#include "shape.h"
+#include "constraint.h"
+
+static void RemoveBodyShape(cpBody* body, cpShape* shape, void* _space)
+{
+	cpSpace* space = static_cast<cpSpace*>(_space);
+
+	delete static_cast<cp::Shape*>(cpShapeGetUserData(shape));
+	cpSpaceRemoveShape(space, shape);
+	cpShapeFree(shape);
+}
+
+static void RemoveBodyConstraint(cpBody* body, cpConstraint* constraint, void* _space)
+{
+	cpSpace* space = static_cast<cpSpace*>(_space);
+
+	delete static_cast<cp::Constraint*>(cpConstraintGetUserData(constraint));
+	cpSpaceRemoveConstraint(space, constraint);
+	cpConstraintFree(constraint);
+}
+
+static void RemoveBodyWrap(cpSpace* space, void* _body, void*)
+{
+	cpBody* body = static_cast<cpBody*>(_body);
+	cpBodyEachShape(body, &RemoveBodyShape, space);
+	cpBodyEachConstraint(body, &RemoveBodyConstraint, space);
+
+	delete static_cast<cp::Body*>(cpBodyGetUserData(body));
+	cpSpaceRemoveBody(space, body);
+	cpBodyFree(body);
+}
 
 namespace cp
 {
@@ -66,4 +97,17 @@ namespace cp
 
 	void* Body::getUserData() const { return userData; }
 	void Body::setUserData(void* data) { userData = data; }
+
+	void Body::remove()
+	{
+		cpSpace* space = cpBodyGetSpace(body);
+		if (cpSpaceIsLocked(space))
+		{
+			cpSpaceAddPostStepCallback(space, &RemoveBodyWrap, body, nullptr);
+		}
+		else
+		{
+			RemoveBodyWrap(space, body, nullptr);
+		}
+	}
 }

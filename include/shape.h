@@ -24,6 +24,8 @@ namespace cp
 
 		operator cpShape*() const;
 
+		Body* getBody() const;
+
 		bool isSensor() const;
 		void setSensor(bool);
 
@@ -50,6 +52,8 @@ namespace cp
 
 		void* getUserData() const;
 		void setUserData(void*);
+
+		void remove();
 
 		virtual void draw(Color) const = 0;
 	};

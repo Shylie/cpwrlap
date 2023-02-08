@@ -10,6 +10,12 @@ namespace cp
 
 	Shape::operator cpShape*() const { return shape; }
 
+	Body* Shape::getBody() const
+	{
+		cpBody* body = cpShapeGetBody(shape);
+		return static_cast<Body*>(cpBodyGetUserData(body));
+	}
+
 	bool Shape::isSensor() const { return cpShapeGetSensor(shape); }
 	void Shape::setSensor(bool sensor) { cpShapeSetSensor(shape, sensor); }
 

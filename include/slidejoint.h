@@ -1,5 +1,5 @@
-#ifndef CPWRLAP_PINJOINT_H
-#define CPWRLAP_PINJOINT_H
+#ifndef CPWRLAP_SLIDEJOINT_H
+#define CPWRLAP_SLIDEJOINT_H
 
 #include "constraint.h"
 
@@ -7,12 +7,11 @@ namespace cp
 {
 	class Body;
 
-	class PinJoint : public Constraint
+	class SlideJoint : public Constraint
 	{
 	public:
-		PinJoint(Body*, Body*, cpVect, cpVect, cpFloat);
-		PinJoint(Body*, Body*, cpVect, cpVect);
-		PinJoint(Body*, Body*, cpFloat);
+		SlideJoint(Body*, Body*, cpVect anchorA, cpVect anchorB, cpFloat min, cpFloat max);
+		SlideJoint(Body*, Body*, cpFloat min, cpFloat max);
 
 		cpVect getAnchorALocal() const;
 		cpVect getAnchorBLocal() const;
@@ -26,11 +25,14 @@ namespace cp
 		void setAnchorAWorld(cpVect);
 		void setAnchorBWorld(cpVect);
 
-		cpFloat getDistance() const;
-		void setDistance(cpFloat);
+		cpFloat getMin() const;
+		void setMin(cpFloat);
+
+		cpFloat getMax() const;
+		void setMax(cpFloat);
 
 		virtual void draw(Color) const override;
 	};
 }
 
-#endif//CPWRLAP_PINJOINT_H
+#endif//CPWRLAP_SLIDEJOINT_H

@@ -44,6 +44,8 @@ namespace cp
 
 		cpFloat getImpulse();
 
+		void remove();
+
 		virtual void draw(Color) const = 0;
 	};
 }

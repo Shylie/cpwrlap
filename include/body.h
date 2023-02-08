@@ -62,6 +62,8 @@ namespace cp
 
 		void* getUserData() const;
 		void setUserData(void*);
+
+		void remove();
 	};
 }
 

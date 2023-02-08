@@ -12,5 +12,6 @@
 #include "polygonshape.h"
 
 #include "pinjoint.h"
+#include "slidejoint.h"
 
 #endif//CPWRLAP_H

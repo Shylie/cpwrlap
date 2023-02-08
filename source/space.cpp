@@ -6,7 +6,7 @@
 
 static void ShapeFreeWrap(cpSpace* space, cpShape* shape, void*)
 {
-	delete reinterpret_cast<cp::Shape*>(cpShapeGetUserData(shape));
+	delete static_cast<cp::Shape*>(cpShapeGetUserData(shape));
 	cpSpaceRemoveShape(space, shape);
 	cpShapeFree(shape);
 }
@@ -18,7 +18,7 @@ static void PostShapeFree(cpShape* shape, cpSpace* space)
 
 static void ConstraintFreeWrap(cpSpace* space, cpConstraint* constraint, void*)
 {
-	delete reinterpret_cast<cp::Constraint*>(cpConstraintGetUserData(constraint));
+	delete static_cast<cp::Constraint*>(cpConstraintGetUserData(constraint));
 	cpSpaceRemoveConstraint(space, constraint);
 	cpConstraintFree(constraint);
 }
@@ -30,7 +30,7 @@ static void PostConstraintFree(cpConstraint* constraint, cpSpace* space)
 
 static void BodyFreeWrap(cpSpace* space, cpBody* body, void*)
 {
-	delete reinterpret_cast<cp::Body*>(cpBodyGetUserData(body));
+	delete static_cast<cp::Body*>(cpBodyGetUserData(body));
 	cpSpaceRemoveBody(space, body);
 	cpBodyFree(body);
 }

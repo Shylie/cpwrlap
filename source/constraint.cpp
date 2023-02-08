@@ -10,8 +10,8 @@ namespace cp
 
 	Constraint::operator cpConstraint*() const { return constraint; }
 
-	Body* Constraint::getBodyA() const { return reinterpret_cast<Body*>(cpBodyGetUserData(cpConstraintGetBodyA(constraint))); }
-	Body* Constraint::getBodyB() const { return reinterpret_cast<Body*>(cpBodyGetUserData(cpConstraintGetBodyB(constraint))); }
+	Body* Constraint::getBodyA() const { return static_cast<Body*>(cpBodyGetUserData(cpConstraintGetBodyA(constraint))); }
+	Body* Constraint::getBodyB() const { return static_cast<Body*>(cpBodyGetUserData(cpConstraintGetBodyB(constraint))); }
 
 	cpFloat Constraint::getMaxForce() const { return cpConstraintGetMaxForce(constraint); }
 	void Constraint::setMaxForce(cpFloat maxForce) { cpConstraintSetMaxForce(constraint, maxForce); }
