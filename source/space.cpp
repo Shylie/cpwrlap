@@ -80,7 +80,7 @@ namespace cp
 	{
 		if (data->begin)
 		{
-			return data->begin(arb, *reinterpret_cast<Space*>(cpSpaceGetUserData(space)), data->data);
+			return data->begin(arb, *static_cast<Space*>(cpSpaceGetUserData(space)), data->data);
 		}
 		else
 		{
@@ -92,7 +92,7 @@ namespace cp
 	{
 		if (data->preSolve)
 		{
-			return data->preSolve(arb, *reinterpret_cast<Space*>(cpSpaceGetUserData(space)), data->data);
+			return data->preSolve(arb, *static_cast<Space*>(cpSpaceGetUserData(space)), data->data);
 		}
 		else
 		{
@@ -102,12 +102,12 @@ namespace cp
 
 	void Space::collisionPostSolveFuncHelper(cpArbiter* arb, cpSpace* space, CallbackData* data)
 	{
-		if (data->postSolve) { data->postSolve(arb, *reinterpret_cast<Space*>(cpSpaceGetUserData(space)), data->data); }
+		if (data->postSolve) { data->postSolve(arb, *static_cast<Space*>(cpSpaceGetUserData(space)), data->data); }
 	}
 
 	void Space::collisionSeparateFuncHelper(cpArbiter* arb, cpSpace* space, CallbackData* data)
 	{
-		if (data->separate) { data->separate(arb, *reinterpret_cast<Space*>(cpSpaceGetUserData(space)), data->data); }
+		if (data->separate) { data->separate(arb, *static_cast<Space*>(cpSpaceGetUserData(space)), data->data); }
 	}
 
 	Space::Space() : space(cpSpaceNew()), staticBody(new Body(cpSpaceGetStaticBody(space))), data(nullptr)
